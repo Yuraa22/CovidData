@@ -1,0 +1,9 @@
+version: "3.3"
+
+services:
+  CovidData:
+    
+    image: coviddata
+    build:
+      context: .
+      dockerfile: Dockerfile

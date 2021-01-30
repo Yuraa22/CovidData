@@ -1,0 +1,8 @@
+version: '3.3'
+
+services:
+  CovidData:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8888:80"
