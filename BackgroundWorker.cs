@@ -30,7 +30,7 @@ namespace CovidData
                     {
                         covidCases = JsonConvert.DeserializeObject<List<CovidCase>>(apiResponse);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         //pokušaj ponovno
                     }
@@ -40,8 +40,6 @@ namespace CovidData
             CaseTotal caseTotalPrevious = null;
             foreach (CovidCase covidCase in covidCases)
             {
-                if (_covidDbContext.CasesDaily.Where(c => c.Date == covidCase.Date).FirstOrDefault() != null)
-                    continue; //MJ zapis već postoji
                 CaseTotal caseTotal = new CaseTotal
                 {
                     Confirmed = covidCase.Confirmed,
@@ -49,6 +47,20 @@ namespace CovidData
                     Recovered = covidCase.Recovered,
                     Date = covidCase.Date
                 };
+
+                if (_covidDbContext.CasesDaily.Where(c => c.Date == covidCase.Date).FirstOrDefault() != null)
+                {
+                    caseTotalPrevious = caseTotal;
+                    continue; //MJ zapis već postoji
+                }
+                if (covidCase.Date == DateTime.Today)
+                {
+                    if (caseTotalPrevious.Confirmed == covidCase.Confirmed && caseTotalPrevious.Deaths == covidCase.Deaths && caseTotalPrevious.Recovered == covidCase.Recovered)
+                    {
+                        caseTotalPrevious = caseTotal;
+                        continue; //MJ postoji greška u ulaznim podacima za zadnje navedeni datum
+                    }
+                }
 
                 _covidDbContext.CasesTotal.Add(caseTotal);
 
