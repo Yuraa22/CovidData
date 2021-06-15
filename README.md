@@ -23,7 +23,7 @@ docker-compose stop
 ### view cases with total numbers of confirmed, recovered and deaths
 - localhost:8888/api/casestotal
 ### view cases with daily numbers of confirmed, recovered and deaths
-- localhost:8080/api/casesdaily
+- localhost:8888/api/casesdaily
 ### variables: min, max (of confirmed cases), from, to (*any variable can be omitted)
 ### examples: 
 - localhost:8888/api/casesdaily?min=5&max=30&from=2020-02-01T00:00:00&to=2020-05-01T00:00:00
